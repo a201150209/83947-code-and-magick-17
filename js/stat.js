@@ -9,14 +9,15 @@ window.renderStatistics = function (ctx, names, times) {
         x: cloudCoordinates.x + 10,
         y: cloudCoordinates.y + 10
     };
-    
 
-    function createHorizontalSide(x, y, direction, object) {
+    function createHorizontalSide(direction, object) {
         var width = 420;
         var xPixelsInStep = 15;
         var yPixelsInStep = -10;
         var shiftX = xPixelsInStep
         var shiftY = yPixelsInStep
+        var x = object.x;
+        var y = object.y;
 
         if (direction === 'left') {
             shiftX = -xPixelsInStep;
@@ -39,12 +40,14 @@ window.renderStatistics = function (ctx, names, times) {
         object.y = y;
     };
 
-    function createVerticalSide(x, y, direction, object) {
+    function createVerticalSide(direction, object) {
         var height = 270;
         var xPixelsInStep = -10;
         var yPixelsInStep = 15;
-        var shiftY = yPixelsInStep
-        var shiftX = xPixelsInStep
+        var shiftX = xPixelsInStep;
+        var shiftY = yPixelsInStep;
+        var x = object.x;
+        var y = object.y;
 
         if (direction === 'top') {
             shiftY = -yPixelsInStep;
@@ -65,24 +68,31 @@ window.renderStatistics = function (ctx, names, times) {
 
         object.x = x;
         object.y = y;
-    }; 
-    
+    };
+
     function paintObject(object, color) {
         ctx.beginPath();
         ctx.moveTo(object.x, object.y);
 
 
-        createHorizontalSide(object.x, object.y, 'right', object);
-        createVerticalSide(object.x, object.y, 'bottom', object);
-        createHorizontalSide(object.x, object.y, 'left', object);
-        createVerticalSide(object.x, object.y, 'top', object);
+        createHorizontalSide('right', object);
+        createVerticalSide('bottom', object);
+        createHorizontalSide('left', object);
+        createVerticalSide('top', object);
 
         ctx.closePath();
         ctx.fillStyle = color;
         ctx.fill();
     };
-    
-    paintObject(cloudShadowCoodinates, 'rgba(0, 0, 0, 0.7)')
-    paintObject(cloudCoordinates, '#fff')
 
+    paintObject(cloudShadowCoodinates, 'rgba(0, 0, 0, 0.7)')
+    paintObject(cloudCoordinates, 'rgba(255, 255, 255, 1)')
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    ctx.font = '16px PT Mono';
+    ctx.fillText('Ура вы победили!', cloudCoordinates.x + 40, cloudCoordinates.y + 40);
+     ctx.fillText('Список результатов:', cloudCoordinates.x + 40, cloudCoordinates.y + 60);
+    
+    
+    
 };
