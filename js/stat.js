@@ -33,7 +33,7 @@ window.renderStatistics = function (ctx, names, times) {
     }
   };
 
-  var maxTime = getMaxTime(times);
+  var maxTime = getMaxValue(times);
 
   function createHorizontalSide(direction, object) {
     var width = 420;
@@ -109,15 +109,15 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fill();
   }
 
-  function getMaxTime(times) {
-    var maxTime = times[0];
-    for (var i = 0; i < times.length; i++) {
-      times[i] = Math.round(times[i]);
-      if (times[i] > maxTime) {
-        maxTime = times[i];
+  function getMaxValue(array) {
+    var maxValue = array[0];
+    for (var i = 0; i < array.length; i++) {
+      array[i] = Math.round(array[i]);
+      if (array[i] > maxValue) {
+        maxValue = array[i];
       }
     }
-    return maxTime;
+    return maxValue;
   }
 
   (function () {
