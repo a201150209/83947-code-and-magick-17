@@ -120,7 +120,7 @@ window.renderStatistics = function (ctx, names, times) {
     return maxValue;
   }
 
-  function  paintCloud() {
+  function paintCloud() {
     paintObject(cloudShadow, cloudShadow.backgroundColor);
     paintObject(cloud, cloud.backgroundColor);
 
