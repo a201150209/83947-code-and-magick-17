@@ -51,7 +51,7 @@ function getRandomElementInArray(array) {
   return array[getRandomNumberFromRange(0, array.length - 1)];
 }
 
-function wizardEntity() {
+function WizardEntity() {
   this.name = getRandomElementInArray(wizardMockData.firstNames) + ' ' + getRandomElementInArray(wizardMockData.lastNames);
   this.coatColor = getRandomElementInArray(wizardMockData.coatColors);
   this.eyesColor = getRandomElementInArray(wizardMockData.eyesColors);
@@ -73,7 +73,7 @@ function renderSimularWizard(entity) {
 function renderSumilarWizards() {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < wizardMockData.numberOfWizards; i++) {
-    var simularWizard = renderSimularWizard(new wizardEntity());
+    var simularWizard = renderSimularWizard(new WizardEntity());
     fragment.appendChild(simularWizard);
   }
   setupSimularList.appendChild(fragment);
