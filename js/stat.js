@@ -120,7 +120,7 @@ window.renderStatistics = function (ctx, names, times) {
     return maxValue;
   }
 
-  (function () {
+  function paintCloud() {
     paintObject(cloudShadow, cloudShadow.backgroundColor);
     paintObject(cloud, cloud.backgroundColor);
 
@@ -128,9 +128,9 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.font = '16px PT Mono';
     ctx.fillText('Ура вы победили!', cloud.x + 60, cloud.y + 20);
     ctx.fillText('Список результатов:', cloud.x + 60, cloud.y + 40);
-  })();
+  }
 
-  (function () {
+  function paintHistogram() {
     for (var i = 0; i < names.length; i++) {
       ctx.fillStyle = histogram.column.getBackgroundColor(names[i]);
       var histogramUserHeight = histogram.height / maxTime * times[i];
@@ -142,5 +142,8 @@ window.renderStatistics = function (ctx, names, times) {
 
       histogram.column.x += histogram.column.padding + histogram.column.width;
     }
-  })();
+  }
+
+  paintCloud();
+  paintHistogram();
 };
