@@ -1,13 +1,11 @@
 'use strict';
 
-var NUMBER_OF_SIMILAR_CHARACTERS = 4;
 var setup = document.querySelector('.setup');
 var setupSimular = setup.querySelector('.setup-similar');
 var setupSimularList = setup.querySelector('.setup-similar-list');
-var simularCharactersProperty = [];
-var simularCharacters = [];
 var simularCharacterTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
-var characterProperty = {
+var wizardMockData = {
+  numberOfWizards: 4,
   firstNames: [
     'Иван',
     'Хуан Себастьян',
@@ -50,47 +48,38 @@ function getRandomNumberFromRange(min, max) {
 }
 
 function getRandomElementInArray(array) {
-  var min = 0;
-  var max = array.length - 1;
-  return array[getRandomNumberFromRange(min, max)];
+  return array[getRandomNumberFromRange(0, array.length - 1)];
 }
 
-function SimularCharacter() {
-  this.name = getRandomElementInArray(characterProperty.firstNames) + ' ' + getRandomElementInArray(characterProperty.lastNames);
-  this.coatColor = getRandomElementInArray(characterProperty.coatColors);
-  this.eyesColor = getRandomElementInArray(characterProperty.eyesColors);
+function wizardEntity() {
+  this.name = getRandomElementInArray(wizardMockData.firstNames) + ' ' + getRandomElementInArray(wizardMockData.lastNames);
+  this.coatColor = getRandomElementInArray(wizardMockData.coatColors);
+  this.eyesColor = getRandomElementInArray(wizardMockData.eyesColors);
 }
 
-function createSimularCharacterProperty() {
-  simularCharactersProperty.push(new SimularCharacter());
+function renderSimularWizard(entity) {
+  var wizard = simularCharacterTemplate.cloneNode(true);
+  var wizardName = wizard.querySelector('.setup-similar-label');
+  var wizardCoatColor = wizard.querySelector('.wizard-coat');
+  var wizardEyesColor = wizard.querySelector('.wizard-eyes');
+
+  wizardName.textContent = entity.name;
+  wizardCoatColor.style.fill = entity.coatColor;
+  wizardEyesColor.style.fill = entity.eyesColor;
+
+  return wizard;
 }
 
-function createSimularCharacter(property) {
-  var character = simularCharacterTemplate.cloneNode(true);
-  var characterName = character.querySelector('.setup-similar-label');
-  var characterCoatColor = character.querySelector('.wizard-coat');
-  var characterEyesColor = character.querySelector('.wizard-eyes');
-
-  characterName.textContent = property.name;
-  characterCoatColor.style.fill = property.coatColor;
-  characterEyesColor.style.fill = property.eyesColor;
-
-  simularCharacters.push(character);
-}
-
-function createSumilarCharacters() {
+function renderSumilarWizards() {
   var fragment = document.createDocumentFragment();
-
-  for (var i = 0; i < NUMBER_OF_SIMILAR_CHARACTERS; i++) {
-    createSimularCharacterProperty();
-    createSimularCharacter(simularCharactersProperty[i]);
-    fragment.appendChild(simularCharacters[i]);
+  for (var i = 0; i < wizardMockData.numberOfWizards; i++) {
+    var simularWizard = renderSimularWizard(new wizardEntity());
+    fragment.appendChild(simularWizard);
   }
-
   setupSimularList.appendChild(fragment);
 }
 
-createSumilarCharacters();
+renderSumilarWizards();
 setup.classList.remove('hidden');
 setupSimular.classList.remove('hidden');
 
