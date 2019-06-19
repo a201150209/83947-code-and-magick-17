@@ -1,9 +1,25 @@
 'use strict';
 
+var keyCode = {
+  enter: 13,
+  esc: 27
+};
+
 var setup = document.querySelector('.setup');
+var setupOpen = document.querySelector('.setup-open');
+var setupOpenIcon = setupOpen.querySelector('.setup-open-icon');
+var setupClose = setup.querySelector('.setup-close');
+var setupUserNameField = setup.querySelector('.setup-user-name');
 var setupSimular = setup.querySelector('.setup-similar');
 var setupSimularList = setup.querySelector('.setup-similar-list');
-var simularCharacterTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+var simularWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
+
+var wizardCoat = setup.querySelector('.setup-wizard .wizard-coat');
+var wizardCoatColor = setup.querySelector('input[name="coat-color"]');
+var wizardEyes = setup.querySelector('.setup-wizard .wizard-eyes');
+var wizardEyesColor = setup.querySelector('input[name="eyes-color"]');
+var wizardFireball = setup.querySelector('.setup-fireball-wrap');
+var wizardFireballColor = setup.querySelector('input[name="fireball-color"]');
 var wizardMockData = {
   numberOfWizards: 4,
   firstNames: [
@@ -40,6 +56,13 @@ var wizardMockData = {
     'blue',
     'yellow',
     'green'
+  ],
+  fireballColors: [
+    '#ee4830',
+    '#30a8ee',
+    '#5ce6c0',
+    '#e848d5',
+    '#e6e848'
   ]
 };
 
@@ -58,14 +81,14 @@ function WizardEntity() {
 }
 
 function renderSimularWizard(entity) {
-  var wizard = simularCharacterTemplate.cloneNode(true);
-  var wizardName = wizard.querySelector('.setup-similar-label');
-  var wizardCoatColor = wizard.querySelector('.wizard-coat');
-  var wizardEyesColor = wizard.querySelector('.wizard-eyes');
+  var wizard = simularWizardTemplate.cloneNode(true);
+  var name = wizard.querySelector('.setup-similar-label');
+  var coat = wizard.querySelector('.wizard-coat');
+  var eyes = wizard.querySelector('.wizard-eyes');
 
-  wizardName.textContent = entity.name;
-  wizardCoatColor.style.fill = entity.coatColor;
-  wizardEyesColor.style.fill = entity.eyesColor;
+  name.textContent = entity.name;
+  coat.style.fill = entity.coatColor;
+  eyes.style.fill = entity.eyesColor;
 
   return wizard;
 }
@@ -79,8 +102,66 @@ function renderSumilarWizards() {
   setupSimularList.appendChild(fragment);
 }
 
+function openSetup() {
+  setup.classList.remove('hidden');
+  setupOpen.removeEventListener('click', onSetupOpenClick);
+  setupOpenIcon.removeEventListener('keydown', onSetupOpenIconKeydown);
+  setupClose.addEventListener('click', onSetupCloseClick);
+  document.addEventListener('keydown', onDocumentKeydown);
+  wizardCoat.addEventListener('click', onWizardCoatClick);
+  wizardEyes.addEventListener('click', onWizardEyesClick);
+  wizardFireball.addEventListener('click', onWizardFireballClick);
+}
+
+function closeSetup() {
+  setup.classList.add('hidden');
+  setupClose.removeEventListener('click', onSetupCloseClick);
+  setupOpen.addEventListener('click', onSetupOpenClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
+}
+
+function onSetupOpenClick() {
+  openSetup();
+}
+
+function onSetupOpenIconKeydown(evt) {
+  if (evt.keyCode === keyCode.enter) {
+    openSetup();
+  }
+}
+
+function onSetupCloseClick() {
+  closeSetup();
+}
+
+function onDocumentKeydown(evt) {
+  if (evt.keyCode === keyCode.esc && document.activeElement !== setupUserNameField) {
+    closeSetup();
+  }
+  if (evt.keyCode === keyCode.enter && document.activeElement === setupClose) {
+    closeSetup();
+  }
+}
+
+function onWizardCoatClick(evt) {
+  evt.target.style.fill = getRandomElementInArray(wizardMockData.coatColors);
+  wizardCoatColor.value = evt.target.style.fill;
+}
+
+function onWizardEyesClick(evt) {
+  evt.target.style.fill = getRandomElementInArray(wizardMockData.eyesColors);
+  wizardEyesColor.value = evt.target.style.fill;
+}
+
+function onWizardFireballClick(evt) {
+  var color = getRandomElementInArray(wizardMockData.fireballColors);
+  evt.target.style.backgroundColor = color;
+  wizardFireballColor.value = color;
+}
+
+setupOpen.addEventListener('click', onSetupOpenClick);
+setupOpenIcon.addEventListener('keydown', onSetupOpenIconKeydown);
 renderSumilarWizards();
-setup.classList.remove('hidden');
 setupSimular.classList.remove('hidden');
 
 
