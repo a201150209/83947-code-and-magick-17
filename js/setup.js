@@ -15,11 +15,11 @@ var setupSimularList = setup.querySelector('.setup-similar-list');
 var simularWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
 var wizardCoat = setup.querySelector('.setup-wizard .wizard-coat');
-var wizardCoatColor = setup.querySelector('input[name="coat-color"]');
+var wizardCoatColorField = setup.querySelector('input[name="coat-color"]');
 var wizardEyes = setup.querySelector('.setup-wizard .wizard-eyes');
-var wizardEyesColor = setup.querySelector('input[name="eyes-color"]');
+var wizardEyesColorField = setup.querySelector('input[name="eyes-color"]');
 var wizardFireball = setup.querySelector('.setup-fireball-wrap');
-var wizardFireballColor = setup.querySelector('input[name="fireball-color"]');
+var wizardFireballColorField = setup.querySelector('input[name="fireball-color"]');
 var wizardMockData = {
   numberOfWizards: 4,
   firstNames: [
@@ -125,7 +125,9 @@ function onSetupOpenClick() {
 }
 
 function onSetupOpenIconKeydown(evt) {
-  if (evt.keyCode === keyCode.enter) {
+  var isEnterPressed = evt.keyCode === keyCode.enter;
+
+  if (isEnterPressed) {
     openSetup();
   }
 }
@@ -135,28 +137,28 @@ function onSetupCloseClick() {
 }
 
 function onDocumentKeydown(evt) {
-  if (evt.keyCode === keyCode.esc && document.activeElement !== setupUserNameField) {
-    closeSetup();
-  }
-  if (evt.keyCode === keyCode.enter && document.activeElement === setupClose) {
+  var isEscPressedOnBlurUserName = evt.keyCode === keyCode.esc && document.activeElement !== setupUserNameField;
+  var isEnterPressedOnFocusedCloser = evt.keyCode === keyCode.enter && document.activeElement === setupClose;
+
+  if (isEscPressedOnBlurUserName || isEnterPressedOnFocusedCloser) {
     closeSetup();
   }
 }
 
 function onWizardCoatClick(evt) {
   evt.target.style.fill = getRandomElementInArray(wizardMockData.coatColors);
-  wizardCoatColor.value = evt.target.style.fill;
+  wizardCoatColorField.value = evt.target.style.fill;
 }
 
 function onWizardEyesClick(evt) {
   evt.target.style.fill = getRandomElementInArray(wizardMockData.eyesColors);
-  wizardEyesColor.value = evt.target.style.fill;
+  wizardEyesColorField.value = evt.target.style.fill;
 }
 
 function onWizardFireballClick(evt) {
   var color = getRandomElementInArray(wizardMockData.fireballColors);
   evt.target.style.backgroundColor = color;
-  wizardFireballColor.value = color;
+  wizardFireballColorField.value = color;
 }
 
 setupOpen.addEventListener('click', onSetupOpenClick);
