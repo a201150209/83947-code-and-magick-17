@@ -138,9 +138,9 @@ function onSetupCloseClick() {
 
 function onDocumentKeydown(evt) {
   var isEscPressedOnBlurUserName = evt.keyCode === keyCode.esc && document.activeElement !== setupUserNameField;
-  var isEnterPressedOnFocusedCloser = evt.keyCode === keyCode.enter && document.activeElement === setupClose;
+  var isEnterPressedOnFocusedSetupClose = evt.keyCode === keyCode.enter && document.activeElement === setupClose;
 
-  if (isEscPressedOnBlurUserName || isEnterPressedOnFocusedCloser) {
+  if (isEscPressedOnBlurUserName || isEnterPressedOnFocusedSetupClose) {
     closeSetup();
   }
 }
